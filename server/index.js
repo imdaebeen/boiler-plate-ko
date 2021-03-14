@@ -1,12 +1,10 @@
 const express = require('express')
 const app = express()
-const port = 5000
-
-const config = require('./config/key');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const config = require('./config/key');
 const { auth } = require('./middleware/auth')
-const{ User } = require("./models/User");
+const { User } = require("./models/User");
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended:true}));
@@ -21,11 +19,9 @@ mongoose.connect(config.mongoURI,{
 }).then(()=> console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
+app.get('/', (req, res) => {res.send('Hello World!~~ 안녕하세요 ~')})
 
-
-app.get('/', (req, res) => {
-  res.send('Hello World!~~ 안녕하세요 ~')
-})
+app.get('/api/hello',(req,res)=> res.send('Hello World!~~'))
 
 app.post('/api/users/register',(req,res) =>{
     
@@ -98,6 +94,7 @@ app.get('/api/users/logout',auth,(req,res) => {
     })
 })
 
+const port = 5000
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
